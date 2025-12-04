@@ -2,6 +2,8 @@ import React from 'react'
 import Navbar from './components/navbar'
 import Hero from './components/Hero'
 import Showcase from './components/showcase'
+import Tools from './components/Tools'
+import AiTutor from './components/aiTutor'
 
 function App() {
   return (
@@ -9,6 +11,8 @@ function App() {
     <Navbar/>
     <Hero/>
     <Showcase/>
+    <Tools/>
+    <AiTutor/>
     </>
   )
 }
