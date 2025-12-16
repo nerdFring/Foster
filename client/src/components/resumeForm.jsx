@@ -3,7 +3,7 @@ import PersonalInfo from "./personalInfo/form";
 import Educations from "./education/form";
 import Experience from "./experience/form";
 import Skills from "./skills/form";
-import Projects from "./projects/form"; // Add this import
+import Projects from "./projects/form"; 
 
 function ResumeForm() {
   const [formData, setFormData] = useState({
@@ -20,7 +20,6 @@ function ResumeForm() {
     scoreType: "gpa",
     field: '',
     scores: 0,
-    // Experience fields
     employer: '',
     jobTitle: '',
     jobLocation: '',
@@ -28,9 +27,7 @@ function ResumeForm() {
     jobEndDate: '',
     currentlyWorking: false,
     jobDescription: '',
-    // Skills field as array
     skills: [],
-    // Projects field as array of objects
     projects: []
   });
 
@@ -47,7 +44,7 @@ function ResumeForm() {
         <Educations formData={formData} setFormData={setFormData} />
         <Experience formData={formData} setFormData={setFormData} />
         <Skills formData={formData} setFormData={setFormData} />
-        <Projects formData={formData} setFormData={setFormData} /> {/* Add this line */}
+        <Projects formData={formData} setFormData={setFormData} />
         
         <div className="flex justify-end">
           <button

@@ -19,11 +19,11 @@ function Hero() {
           Only 2% of resumes win. Yours will be one of them.
         </p>
         
-        <button className="bg-black text-white font-bold px-8 py-4 rounded-full 
+        <a href='/build' className="bg-black text-white font-bold px-8 py-4 rounded-full 
           hover:bg-white hover:text-black hover:border-2 hover:border-black 
           transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl">
           Create My Resume
-        </button>
+        </a>
         
         {/* Optional additional text */}
         <p className="text-sm text-gray-500">
