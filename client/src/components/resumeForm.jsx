@@ -11,28 +11,26 @@ function ResumeForm() {
     lastName: '',
     email: '',
     phoneNo: '',
-    instituteName: '',
-    location: '',
-    degree: '',
-    startDate: '',
-    endDate: '',
-    description: '',
-    scoreType: "gpa",
-    field: '',
-    scores: 0,
-    employer: '',
-    jobTitle: '',
-    jobLocation: '',
-    jobStartDate: '',
-    jobEndDate: '',
-    currentlyWorking: false,
-    jobDescription: '',
+    
+    educations: [],
+    
+    experiences: [], 
+    
     skills: [],
+    
     projects: []
   });
 
   const handleSubmit = () => {
     console.log('Form Data:', formData);
+    const dataStr = JSON.stringify(formData, null, 2);
+    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+    const exportFileDefaultName = 'resume-data.json';
+    
+    const linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
   };
 
   return (
@@ -46,13 +44,21 @@ function ResumeForm() {
         <Skills formData={formData} setFormData={setFormData} />
         <Projects formData={formData} setFormData={setFormData} />
         
-        <div className="flex justify-end">
+        <div className="flex justify-end mt-8">
           <button
             onClick={handleSubmit}
-            className="bg-black text-white px-6 py-2 rounded-md hover:bg-gray-800 transition-colors font-medium"
+            className="bg-black text-white px-8 py-3 rounded-md hover:bg-gray-800 transition-colors font-medium text-lg"
           >
             Submit Resume
           </button>
+        </div>
+        
+        {/* Optional: Preview current state */}
+        <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
+          <h3 className="text-lg font-medium text-gray-800 mb-2">Data Preview</h3>
+          <pre className="text-sm text-gray-600 overflow-auto max-h-40">
+            {JSON.stringify(formData, null, 2)}
+          </pre>
         </div>
       </div>
     </div>
