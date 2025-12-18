@@ -23,9 +23,3 @@ export const register=async(req,res)=>{
         return res.status(500).json({message:"error creating user"})
     }
 }
-
-// {
-//     "name":"hammad",
-//     "email":"hammad@gmail.com",
-//     "password":"hammad"
-// }

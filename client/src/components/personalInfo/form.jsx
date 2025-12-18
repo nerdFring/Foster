@@ -73,7 +73,39 @@ export default function PersonalInfo({ formData, setFormData }) {
             placeholder="+1 (555) 123-4567"
           />
         </div>
+
+ <div>
+          <label htmlFor="Address" className="block text-sm font-medium text-gray-700 mb-1">
+            Address
+          </label>
+          <input
+            type="text"
+            id="address"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+            placeholder="Enter Address"
+          />
+        </div>
+
+         <div>
+          <label htmlFor="languages" className="block text-sm font-medium text-gray-700 mb-1">
+            Languages
+          </label>
+          <input
+            type="text"
+            id="languages"
+            name="languages"
+            value={formData.languages}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
+            placeholder="Enter Languages"
+          />
+        </div>
+        
       </div>
     </div>
   );
 }
+

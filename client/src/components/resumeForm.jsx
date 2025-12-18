@@ -11,6 +11,8 @@ function ResumeForm() {
     lastName: '',
     email: '',
     phoneNo: '',
+    address:'',
+    languages: [],
     
     educations: [],
     
