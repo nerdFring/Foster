@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { educationSchema } from "./educations.js";
 import { experienceSchema } from "./experience.js";
 import { projectSchema } from "./project.js";
