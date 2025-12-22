@@ -1,7 +1,7 @@
 import Resume from "../../models/resume.js";
 
 
-export const getOneUser=async (req,res)=>{
+export const getOneUserResume=async (req,res)=>{
     const {userId}=req.body;
     try {
         const data=await Resume.find({userId:userId})

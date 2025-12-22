@@ -53,7 +53,6 @@ export default function Projects({ formData, setFormData }) {
     <div className="bg-white p-6 rounded-lg shadow-md mb-6">
       <h2 className="text-2xl font-semibold mb-6 text-gray-800">Projects</h2>
       
-      {/* Add New Project Form */}
       <div className="mb-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
         <h3 className="text-lg font-medium text-gray-800 mb-4">Add New Project</h3>
         

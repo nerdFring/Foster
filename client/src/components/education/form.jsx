@@ -13,7 +13,6 @@ export default function Educations({ formData, setFormData }) {
   });
 
   const handleAddEducation = () => {
-    // Check if required fields are filled
     if (newEducation.instituteName.trim() && newEducation.degree.trim()) {
       setFormData(prev => ({
         ...prev,

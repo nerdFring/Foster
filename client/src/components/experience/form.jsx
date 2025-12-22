@@ -12,7 +12,6 @@ export default function Experience({ formData, setFormData }) {
   });
 
   const handleAddExperience = () => {
-    // Check if required fields are filled
     if (newExperience.employer.trim() && newExperience.jobTitle.trim()) {
       const experienceToAdd = {
         ...newExperience,
@@ -76,7 +75,6 @@ export default function Experience({ formData, setFormData }) {
     }));
   };
 
-  // Format month for display
   const formatMonth = (monthString) => {
     if (!monthString || monthString === 'Present') return monthString;
     const [year, month] = monthString.split('-');
@@ -84,7 +82,6 @@ export default function Experience({ formData, setFormData }) {
     return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
   };
 
-  // Calculate duration
   const calculateDuration = (startDate, endDate) => {
     if (!startDate) return '';
     
@@ -109,7 +106,6 @@ export default function Experience({ formData, setFormData }) {
     <div className="bg-white p-6 rounded-lg shadow-md mb-6">
       <h2 className="text-2xl font-semibold mb-6 text-gray-800">Work Experience</h2>
       
-      {/* Add New Experience Form */}
       <div className="mb-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
         <h3 className="text-lg font-medium text-gray-800 mb-4">Add New Experience</h3>
         
@@ -274,7 +270,6 @@ export default function Experience({ formData, setFormData }) {
                       </div>
                     </div>
                     
-                    {/* Editable fields (optional) */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                       <input
                         type="text"
@@ -305,7 +300,6 @@ export default function Experience({ formData, setFormData }) {
                       </div>
                     )}
                     
-                    {/* Currently working checkbox for existing entries */}
                     <div className="mt-3 flex items-center">
                       <input
                         type="checkbox"

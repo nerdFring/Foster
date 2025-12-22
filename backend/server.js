@@ -7,6 +7,8 @@ import { connectDB } from './config/db.js';
 import dotenv from 'dotenv';
 import { createResume } from './controllers/resume/create.js';
 import { updateResume } from './controllers/resume/update.js';
+import { getResumes } from './controllers/resume/getAll.js';
+import { getResumeById } from './controllers/resume/getById.js';
 
 
 
@@ -26,6 +28,9 @@ app.use(cors({
 app.post("/login",login)
 app.post("/register", register)
 app.post("/create",createResume)
+app.get("/get",getResumes)
+app.get("/get/:id", getResumeById)
+app.get("/get/user/:id",getResumes)
 
 app.post("/update",updateResume)
 app.listen(process.env.port,()=>{
