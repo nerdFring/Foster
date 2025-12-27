@@ -216,7 +216,6 @@ export default function Educations({ formData, setFormData }) {
         </div>
       </div>
 
-      {/* List of Added Educations */}
       <div>
         <h3 className="text-lg font-medium text-gray-800 mb-4">
           Your Education History ({formData.educations?.length || 0})
@@ -254,7 +253,6 @@ export default function Educations({ formData, setFormData }) {
                       </div>
                     </div>
                     
-                    {/* Edit mode (optional - you can remove this if not needed) */}
                     <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3">
                       <input
                         type="text"

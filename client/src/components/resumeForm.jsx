@@ -23,7 +23,7 @@ function ResumeForm() {
     projects: []
   });
 
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
     console.log('Form Data:', formData);
     const dataStr = JSON.stringify(formData, null, 2);
     const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
@@ -33,6 +33,27 @@ function ResumeForm() {
     linkElement.setAttribute('href', dataUri);
     linkElement.setAttribute('download', exportFileDefaultName);
     linkElement.click();
+    try {
+      const response= await fetch("http://localhost:3000/create",{
+        method:"POST",
+        headers:{
+        "Content-Type": "application/json",
+        },
+        body:JSON.stringify(formData)
+      })
+      const result=await response.json()
+          if (!result.ok) {
+      throw new Error(result.message || "Failed to create resume");
+    }
+
+    console.log("Resume created:", result);
+    alert("Resume created successfully ✅");
+
+    } catch (error) {
+          console.error("Error submitting resume:", error);
+    alert("Error submitting resume ❌");
+
+    }
   };
 
   return (
@@ -55,7 +76,6 @@ function ResumeForm() {
           </button>
         </div>
         
-        {/* Optional: Preview current state */}
         <div className="mt-8 p-4 bg-gray-50 rounded-lg border border-gray-200">
           <h3 className="text-lg font-medium text-gray-800 mb-2">Data Preview</h3>
           <pre className="text-sm text-gray-600 overflow-auto max-h-40">
