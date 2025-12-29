@@ -42,7 +42,7 @@ function ResumeForm() {
         body:JSON.stringify(formData)
       })
       const result=await response.json()
-          if (!result.ok) {
+if (!response.ok || !result.success) {
       throw new Error(result.message || "Failed to create resume");
     }
 

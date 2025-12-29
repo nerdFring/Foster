@@ -5,31 +5,32 @@ export const createResume = async (req, res) => {
 
 
   try {
-    const {
-      firstName,
-      lastName,
-      email,
-      phone,
-      address,
-      languages,
-      education,
-      experience,
-      skills,
-      projects,
-      template,
-      userId
-    } = req.body;
+   const {
+  firstName,
+  lastName,
+  email,
+  phoneNo,
+  address,
+  languages,
+  educations,
+  experiences,
+  skills,
+  projects,
+  template,
+  userId
+} = req.body;
+
 
     
     const newResume = new Resume({
       firstName,
       lastName,
       email,
-      phone,
+      phoneNo,
       address,
       languages: languages || [], 
-      education: education || [], 
-      experience: experience || [], 
+      education: educations || [], 
+      experience: experiences || [], 
       skills: skills || [], 
       projects: projects || [],
       userId,
@@ -50,7 +51,8 @@ export const createResume = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Error creating resume",
-      error: error.message
+      error: error.message,
+      stack:error.stack
     });
   }
 };
