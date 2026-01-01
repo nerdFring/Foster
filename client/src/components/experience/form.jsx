@@ -237,7 +237,6 @@ export default function Experience({ formData, setFormData }) {
         </div>
       </div>
 
-      {/* List of Added Experiences */}
       <div>
         <h3 className="text-lg font-medium text-gray-800 mb-4">
           Your Work Experience ({formData.experiences?.length || 0})
