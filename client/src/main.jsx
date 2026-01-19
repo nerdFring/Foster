@@ -13,10 +13,6 @@ createRoot(document.getElementById('root')).render(
     <Routes>
     <Route path="/" element={<App />} />
         <Route path="/build" element={<ResumeForm />} />
-
-    <Route path="/" element={<App />} />
-
-    <Route path="/" element={<App />} />
             <Route path="/register" element={<SignupForm />} />
             <Route path="/login" element={<Login />} />
 

@@ -4,6 +4,7 @@ import Educations from "./education/form";
 import Experience from "./experience/form";
 import Skills from "./skills/form";
 import Projects from "./projects/form"; 
+import Navbar from "./navbar";
 
 function ResumeForm() {
   const [formData, setFormData] = useState({
@@ -57,6 +58,8 @@ if (!response.ok || !result.success) {
   };
 
   return (
+    <>
+    <Navbar/>
     <div className="min-h-screen bg-gray-100 py-8 px-4">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold text-gray-900 mb-8 text-center">Resume Builder</h1>
@@ -84,7 +87,9 @@ if (!response.ok || !result.success) {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
 export default ResumeForm;
+

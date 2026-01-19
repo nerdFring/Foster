@@ -25,13 +25,11 @@ function Hero() {
           Create My Resume
         </a>
         
-        {/* Optional additional text */}
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-500 my-2 py-5">
           Join over 1 million professionals who landed jobs with our resumes
         </p>
       </div>
-
-      {/* Right Image */}
+    
       <div className="w-full lg:w-1/2 flex justify-center lg:justify-end">
         <div className="relative">
           <img 
@@ -40,7 +38,6 @@ function Hero() {
             className="w-full max-w-md lg:max-w-lg rounded-2xl shadow-2xl 
               transform hover:scale-[1.02] transition-transform duration-300"
           />
-          {/* Optional decorative element */}
           <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-blue-100 rounded-full -z-10"></div>
         </div>
       </div>
