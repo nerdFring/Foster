@@ -16,8 +16,8 @@ const Navbar = () => {
              hover:text-white hover:border-2 hover:border-white rounded-full'>Contact</div>
                      </div>
         <div className='flex cursor-pointer gap-4 underline text-lg'>
-            <div className='font-bold'>Login</div>
-            <div className='font-bold'>SignUp</div>
+            <a href='/login' className='font-bold'>Login</a>
+            <a href='/register' className='font-bold'>SignUp</a>
         </div>
     </div>
       

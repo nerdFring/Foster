@@ -3,7 +3,6 @@ import React from 'react'
 function Hero() {
   return (
     <section className="flex flex-col lg:flex-row items-center justify-between gap-8 md:gap-12 py-8 md:py-12 px-4 md:px-8">
-      {/* Left Content */}
       <div className="w-full lg:w-1/2 space-y-6 md:space-y-8">
         <div className="space-y-3 md:space-y-4">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif leading-tight">

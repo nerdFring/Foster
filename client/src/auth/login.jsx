@@ -3,17 +3,15 @@ import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    username: '',
     email: '',
     password: '',
-    confirmPassword: '',
   });
   
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [apiError, setApiError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,17 +26,14 @@ const Login = () => {
         [name]: '',
       });
     }
+    
+    if (apiError) {
+      setApiError('');
+    }
   };
 
-  // Validate form
   const validateForm = () => {
     const newErrors = {};
-    
-    if (!formData.username.trim()) {
-      newErrors.username = 'Username is required';
-    } else if (formData.username.length < 3) {
-      newErrors.username = 'Username must be at least 3 characters';
-    }
     
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
@@ -52,19 +47,13 @@ const Login = () => {
       newErrors.password = 'Password must be at least 6 characters';
     }
     
-    if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'Please confirm your password';
-    } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
-    }
-    
     return newErrors;
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
+    // Validate form
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -72,46 +61,72 @@ const Login = () => {
     }
     
     setIsSubmitting(true);
+    setApiError('');
     
-    // Simulate API call
-    setTimeout(() => {
-      console.log('Form submitted:', formData);
-      setIsSubmitting(false);
+    try {
+      const response = await fetch('http://localhost:3000/login', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials:"include",
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        })
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed');
+      }
+      
       setSubmitSuccess(true);
       
-      // Reset form after successful submission
+      if (data.token) {
+        localStorage.setItem('authToken', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+      }
+      
       setTimeout(() => {
-        setFormData({
-          username: '',
-          email: '',
-          password: '',
-          confirmPassword: '',
-        });
-        setSubmitSuccess(false);
-      }, 3000);
-    }, 1500);
+        window.location.href = '/build';
+      }, 1500);
+      
+    } catch (error) {
+      console.error('Login error:', error);
+      setApiError(error.message || 'An error occurred during login');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  // Toggle password visibility
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 p-4">
       <div className="w-full max-w-md">
-        {/* Form Header */}
         <div className="text-center mb-10">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">Login To Account</h1>
-          <p className="text-gray-600">Join our community today</p>
+          <p className="text-gray-600">Welcome back to our community</p>
         </div>
         
-      
+        {submitSuccess && (
+          <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+            <p className="font-medium">Login successful! Redirecting...</p>
+          </div>
+        )}
+        
+        {apiError && (
+          <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+            <p className="font-medium">{apiError}</p>
+          </div>
+        )}
         
         <form onSubmit={handleSubmit} className="bg-white shadow-2xl rounded-2xl p-8 border border-gray-200">
           <div className="space-y-6">
-
             
             <div>
               <label className="block text-gray-700 text-sm font-medium mb-2" htmlFor="email">
@@ -129,6 +144,7 @@ const Login = () => {
                   onChange={handleChange}
                   className={`w-full pl-10 pr-4 py-3 border ${errors.email ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all duration-200`}
                   placeholder="Enter your email"
+                  disabled={isSubmitting}
                 />
               </div>
               {errors.email && (
@@ -151,12 +167,14 @@ const Login = () => {
                   value={formData.password}
                   onChange={handleChange}
                   className={`w-full pl-10 pr-12 py-3 border ${errors.password ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all duration-200`}
-                  placeholder="Create a password"
+                  placeholder="Enter your password"
+                  disabled={isSubmitting}
                 />
                 <button
                   type="button"
                   className="absolute inset-y-0 right-0 pr-3 flex items-center"
                   onClick={togglePasswordVisibility}
+                  disabled={isSubmitting}
                 >
                   {showPassword ? (
                     <FaEyeSlash className="text-gray-500 hover:text-gray-700" />
@@ -170,9 +188,12 @@ const Login = () => {
               )}
             </div>
             
-            
-        
-            
+            <div className="text-right">
+              <a href="/forgot-password" className="text-sm text-gray-600 hover:text-gray-900 hover:underline">
+                Forgot password?
+              </a>
+            </div>
+    
             <button
               type="submit"
               disabled={isSubmitting}
@@ -187,17 +208,15 @@ const Login = () => {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  Creating Account...
+                  Logging In...
                 </span>
               ) : (
-                'Create Account'
+                'Login to Account'
               )}
             </button>
             
-      
-            
             <div className="text-center text-sm text-gray-600">
-              Dont have an account?{' '}
+              Don't have an account?{' '}
               <a href="/register" className="text-gray-900 font-medium hover:underline">
                 Sign Up
               </a>
@@ -206,7 +225,7 @@ const Login = () => {
         </form>
         
         <p className="text-center text-gray-500 text-sm mt-8">
-          By signing In, you agree to our terms. Your data is secure with us.
+          By signing in, you agree to our terms. Your data is secure with us.
         </p>
       </div>
     </div>
