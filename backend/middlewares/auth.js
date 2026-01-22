@@ -8,6 +8,9 @@ export const protect=(req,res,next)=>{
     try {
         const decode=jwt.verify(token,process.env.secretKey)
         req.userId=decode.id
+        console.log("USER ID:", req.userId);
+
+        next()
     } catch (error) {
             return res.status(401).json({ message: "Invalid token" });
 

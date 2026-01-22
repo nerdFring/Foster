@@ -13,6 +13,12 @@ password:{
     type:String,
     required:true
 },
+ isVerified: {
+    type: Boolean,
+    default: false,
+  },
+   emailVerifyToken: String,
+  emailVerifyExpire: Date,
 createdAt:{
     type:Date,
     default:Date.now

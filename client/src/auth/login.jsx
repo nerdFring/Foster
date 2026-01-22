@@ -1,17 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaUser, FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { useAuth } from '../../context/auth';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: '',
   });
+  const {user,loading}=useAuth()
   
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [apiError, setApiError] = useState('');
+const navigate=useNavigate()
+useEffect(() => {
+  if (!loading && user) {
+    navigate("/");
+  }
+}, [user, loading]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -177,9 +186,9 @@ const Login = () => {
                   disabled={isSubmitting}
                 >
                   {showPassword ? (
-                    <FaEyeSlash className="text-gray-500 hover:text-gray-700" />
+                    <FaEyeSlash className="text-gray-500 cursor-pointer hover:text-gray-700" />
                   ) : (
-                    <FaEye className="text-gray-500 hover:text-gray-700" />
+                    <FaEye className="text-gray-500 hover:text-gray-700 cursor-pointer" />
                   )}
                 </button>
               </div>
@@ -188,11 +197,11 @@ const Login = () => {
               )}
             </div>
             
-            <div className="text-right">
+            {/* <div className="text-right">
               <a href="/forgot-password" className="text-sm text-gray-600 hover:text-gray-900 hover:underline">
                 Forgot password?
               </a>
-            </div>
+            </div> */}
     
             <button
               type="submit"

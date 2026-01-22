@@ -8,7 +8,6 @@ res.cookie("token",token,{
 })
 }
 
-
 export const clearTokenCookie=(res)=>{
 res.cookie("token","",{
     httpOnly:true,
