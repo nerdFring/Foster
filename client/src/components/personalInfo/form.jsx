@@ -60,14 +60,14 @@ export default function PersonalInfo({ formData, setFormData }) {
         </div>
 
         <div>
-          <label htmlFor="phoneNo" className="block text-sm font-medium text-gray-700 mb-1">
+          <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
             Phone Number
           </label>
           <input
             type="tel"
-            id="phoneNo"
-            name="phoneNo"
-            value={formData.phoneNo}
+            id="phone"
+            name="phone"
+            value={formData.phone}
             onChange={handleChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
             placeholder="+1 (555) 123-4567"
@@ -100,8 +100,8 @@ export default function PersonalInfo({ formData, setFormData }) {
             value={formData.languages}
             onChange={handleChange}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-black"
-            placeholder="Enter Languages"
-          />
+  placeholder="English, Urdu, French"
+            />
         </div>
         
       </div>

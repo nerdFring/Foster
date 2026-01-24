@@ -35,8 +35,9 @@ export const register=async(req,res)=>{
 
         const savedUesr=await newUser.save()
         const token=jwt.sign({id:savedUesr._id,email},process.env.secretKey,{expiresIn:"30d"})
-        sendTokenCookie(res,token)
-        return res.status(201).json({message:"user created successfully",user:savedUesr,token})
+        // sendTokenCookie(res,token)
+        return res.status(201)
+        .json({message:"user created successfully! Check the verification link sent on gmail",user:savedUesr,token})
     } catch (error) {
         console.log("error creating user",error)
         return res.status(500).json({message:"error creating user"})

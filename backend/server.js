@@ -15,6 +15,7 @@ import cookieParser from "cookie-parser";
 import { logOut, me } from './utils/me.js';
 import { protect } from './middlewares/auth.js';
 import { verifyEmail } from './controllers/auth/verifyEmail.js';
+import { resendEmail } from './controllers/auth/resendEmail.js';
 
 
 
@@ -37,13 +38,15 @@ app.post("/register", register)
 app.post("/create",protect,createResume)
 app.get("/getAll",getResumes)
 app.get("/get/:id",protect, getResumeById)
-app.get("/get/user/:id",getOneUserResume)
+app.get("/get/user/:userId",getOneUserResume)
 app.get("/getUsers",getUsers)
 app.post("/update",updateResume)
 
 app.get("/me",protect,me)
 app.post("/logout",logOut)
 app.get("/verify-email/:verifyToken",verifyEmail)
+app.post("/resendW-email",resendEmail)
+
 app.listen(process.env.port,()=>{
     console.log(`server started http://localhost:${process.env.port}`)
 })

@@ -2,7 +2,7 @@ import Resume from "../../models/resume.js";
 
 
 export const getOneUserResume=async (req,res)=>{
-    const {userId}=req.body;
+    const {userId}=req.params;
     try {
         const data=await Resume.find({userId:userId})
         if (!data){

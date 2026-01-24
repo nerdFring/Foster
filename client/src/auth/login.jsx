@@ -14,6 +14,7 @@ const Login = () => {
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [message, setmessage] = useState('')
   const [apiError, setApiError] = useState('');
 const navigate=useNavigate()
 useEffect(() => {
@@ -21,6 +22,40 @@ useEffect(() => {
     navigate("/");
   }
 }, [user, loading]);
+
+const handleResend = async () => {
+  if (!formData.email) {
+    setApiError("Please enter your email first");
+    return;
+  }
+
+  try {
+    setApiError('');
+    setmessage('');
+
+    const response = await fetch("http://localhost:3000/resend-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({ email: formData.email })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      // 👇 THIS is the optional frontend message
+      setApiError(data.message);
+      return;
+    }
+
+    // success
+    setmessage(data.message);
+
+  } catch (error) {
+    setApiError("Something went wrong. Try again later.");
+  }
+};
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -93,10 +128,10 @@ useEffect(() => {
       
       setSubmitSuccess(true);
       
-      if (data.token) {
-        localStorage.setItem('authToken', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-      }
+      // if (data.token) {
+      //   localStorage.setItem('authToken', data.token);
+      //   localStorage.setItem('user', JSON.stringify(data.user));
+      // }
       
       setTimeout(() => {
         window.location.href = '/build';
@@ -127,6 +162,12 @@ useEffect(() => {
             <p className="font-medium">Login successful! Redirecting...</p>
           </div>
         )}
+
+           { message && (
+          <div className="mb-6 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+            <p className="font-bold">{message}</p>
+          </div>
+       ) }
         
         {apiError && (
           <div className="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
@@ -196,12 +237,15 @@ useEffect(() => {
                 <p className="mt-2 text-sm text-red-600">{errors.password}</p>
               )}
             </div>
-            
-            {/* <div className="text-right">
-              <a href="/forgot-password" className="text-sm text-gray-600 hover:text-gray-900 hover:underline">
-                Forgot password?
-              </a>
-            </div> */}
+
+             <button
+             onClick={handleResend}
+             disabled={apiError.includes("already sent")}
+              className="w-full cursor-pointer bg-gray-900 text-white font-medium py-3 px-4 rounded-lg
+               hover:bg-white hover:text-gray-900 hover:border-2
+                hover:border-gray-900 transition-all duration-300 ease-in-out focus:outline-none 
+                focus:ring-2 focus:ring-offset-2 focus:ring-gray-900 disabled:opacity-70 disabled:cursor-not-allowed"
+            >Resend Email</button>
     
             <button
               type="submit"

@@ -8,6 +8,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const {user,loading,logOut}=useAuth()
+  const userId=user?._id
   const handleLogOut=async()=>{
     await logOut()
     navigate("/login")
@@ -20,8 +21,8 @@ const Navbar = () => {
         <div className='flex cursor-pointer gap-4 '>
             <a href='/' className='bg-white text-black font-bold border-2 border-black px-8 py-2 hover:bg-black
              hover:text-white hover:border-2 hover:border-white rounded-full'>Home</a>
-            <div className='bg-white text-black font-bold border-2 border-black px-8 py-2 hover:bg-black
-             hover:text-white hover:border-2 hover:border-white rounded-full'>About</div>
+            <a href={`/my-resume`} className='bg-white text-black font-bold border-2 border-black px-8 py-2 hover:bg-black
+             hover:text-white hover:border-2 hover:border-white rounded-full'>My Resume</a>
             <div className='bg-white text-black font-bold border-2 border-black px-8 py-2 hover:bg-black
              hover:text-white hover:border-2 hover:border-white rounded-full'>Contact</div>
                      </div>

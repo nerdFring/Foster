@@ -26,9 +26,10 @@ const resumeSchema = new mongoose.Schema({
     required: true
   },
 
-  languages: [{
-    type: String
-  }],
+  languages: {
+    type: [String],
+    default:[]
+  },
   
   education: [educationSchema],
   experience: [experienceSchema],

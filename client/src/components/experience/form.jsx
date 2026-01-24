@@ -15,7 +15,7 @@ export default function Experience({ formData, setFormData }) {
     if (newExperience.employer.trim() && newExperience.jobTitle.trim()) {
       const experienceToAdd = {
         ...newExperience,
-        jobEndDate: newExperience.currentlyWorking ? 'Present' : newExperience.jobEndDate
+        jobEndDate: newExperience.currentlyWorking ? null : newExperience.jobEndDate
       };
 
       setFormData(prev => ({
@@ -68,7 +68,7 @@ export default function Experience({ formData, setFormData }) {
           ? { 
               ...exp, 
               currentlyWorking: checked,
-              jobEndDate: checked ? 'Present' : exp.jobEndDate 
+              jobEndDate: checked ? null : exp.jobEndDate 
             } 
           : exp
       )

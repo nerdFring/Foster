@@ -5,11 +5,14 @@ export const createResume = async (req, res) => {
 
 
   try {
+
+    const userId = req.userId; 
+
    const {
   firstName,
   lastName,
   email,
-  phoneNo,
+  phone,
   address,
   languages,
   educations,
@@ -17,16 +20,14 @@ export const createResume = async (req, res) => {
   skills,
   projects,
   template,
-  userId
+  
 } = req.body;
-
-
     
     const newResume = new Resume({
       firstName,
       lastName,
       email,
-      phoneNo,
+      phone,
       address,
       languages: languages || [], 
       education: educations || [], 

@@ -11,6 +11,9 @@ export const login=async(req,res)=>{
         if (!user){
             return res.status(400).json({message:"user not found"})
         }
+        if(!user.isVerified){
+            return res.status(400).json({message:"Verify yourself via link on email"})
+        }
         const comparePass=await bcrypt.compare(password,user.password)
         if(!comparePass){
             return res.status(400).json({message:"invalid credentials"})

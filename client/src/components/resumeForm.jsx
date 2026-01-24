@@ -5,15 +5,23 @@ import Experience from "./experience/form";
 import Skills from "./skills/form";
 import Projects from "./projects/form"; 
 import Navbar from "./navbar";
+import { useAuth } from "../../context/auth";
+import { useNavigate } from "react-router-dom";
 
 function ResumeForm() {
+  const {user,loading}=useAuth()
+  const navigate=useNavigate()
+  console.log('user:',user)
+  console.log('userId from resume:',user._id )
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
     email: '',
-    phoneNo: '',
+    phone: '',
     address:'',
-    languages: [],
+    // userId:user?._id ,
+  languages: '',       
     
     educations: [],
     
@@ -34,25 +42,49 @@ function ResumeForm() {
     linkElement.setAttribute('href', dataUri);
     linkElement.setAttribute('download', exportFileDefaultName);
     linkElement.click();
+
+  const payload = {
+  ...formData,
+
+  languages: formData.languages
+    .split(',')
+    .map(l => l.trim())
+    .filter(Boolean),
+
+  skills: formData.skills.map(skill => ({
+    name: skill,
+    level: "Intermediate",
+    category: ""
+  })),
+
+  experiences: formData.experiences.map(exp => ({
+    ...exp,
+    jobEndDate: exp.currentlyWorking ? null : exp.jobEndDate
+  }))
+};
+
     try {
       const response= await fetch("http://localhost:3000/create",{
         method:"POST",
         headers:{
         "Content-Type": "application/json",
         },
-        body:JSON.stringify(formData)
+        credentials:"include",
+        body:JSON.stringify(payload)
       })
       const result=await response.json()
 if (!response.ok || !result.success) {
-      throw new Error(result.message || "Failed to create resume");
+throw new Error(result.message || "Failed to create resume");
     }
 
     console.log("Resume created:", result);
-    alert("Resume created successfully ✅");
+    navigate(`/resume/${result.data._id}`)
+    console.log('resumeId:',result.data._id)
+    // alert("Resume created successfully ");
 
     } catch (error) {
           console.error("Error submitting resume:", error);
-    alert("Error submitting resume ❌");
+    alert("Error submitting resume ");
 
     }
   };
