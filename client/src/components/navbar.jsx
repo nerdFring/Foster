@@ -23,8 +23,8 @@ const Navbar = () => {
              hover:text-white hover:border-2 hover:border-white rounded-full'>Home</a>
             <a href={`/my-resume`} className='bg-white text-black font-bold border-2 border-black px-8 py-2 hover:bg-black
              hover:text-white hover:border-2 hover:border-white rounded-full'>My Resume</a>
-            <div className='bg-white text-black font-bold border-2 border-black px-8 py-2 hover:bg-black
-             hover:text-white hover:border-2 hover:border-white rounded-full'>Contact</div>
+            <a href='/contact' className='bg-white text-black font-bold border-2 border-black px-8 py-2 hover:bg-black
+             hover:text-white hover:border-2 hover:border-white rounded-full'>Contact</a>
                      </div>
         <div className='flex cursor-pointer gap-4 underline  text-lg'>
        {user?(<button className='cursor-pointer' onClick={handleLogOut}>Logout</button>): <a href='/login' className='font-bold'>Login</a>}    

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/auth'
 import ResumeCard from './ResumeCard'
+import Navbar from './navbar'
 
 function UserResumes() {
     const [resumes, setResumes] = useState([])
@@ -44,6 +45,8 @@ function UserResumes() {
     }
 
     return (
+        <>
+        <Navbar/>
         <div className="min-h-screen bg-white p-4 md:p-8">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
@@ -89,7 +92,9 @@ function UserResumes() {
                 )}
             </div>
         </div>
+        </>
     )
 }
 
 export default UserResumes
+

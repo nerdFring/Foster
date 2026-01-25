@@ -16,6 +16,7 @@ import { logOut, me } from './utils/me.js';
 import { protect } from './middlewares/auth.js';
 import { verifyEmail } from './controllers/auth/verifyEmail.js';
 import { resendEmail } from './controllers/auth/resendEmail.js';
+import { pdf } from './controllers/resume/pdf.js';
 
 
 
@@ -46,7 +47,7 @@ app.get("/me",protect,me)
 app.post("/logout",logOut)
 app.get("/verify-email/:verifyToken",verifyEmail)
 app.post("/resendW-email",resendEmail)
-
+app.get('/generate-pdf/:id',pdf)
 app.listen(process.env.port,()=>{
     console.log(`server started http://localhost:${process.env.port}`)
 })

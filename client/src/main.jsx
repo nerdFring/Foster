@@ -11,6 +11,7 @@ import ProtectedRoute from './auth/protectedRoute.jsx';
 import VerifyEmail from './auth/verifyEmail.jsx';
 import ResumePage from './components/printPage.jsx';
 import UserResumes from './components/userResumes.jsx';
+import ContactPage from './components/contact.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -27,9 +28,11 @@ createRoot(document.getElementById('root')).render(
             <Route path="/login" element={<Login />} />
             <Route path="/resume/:id" element={<ResumePage />} />
             <Route path="/my-resume" element={<UserResumes />} />
+            <Route path="/contact" element={<ContactPage />} />
 
 </Routes>
     </BrowserRouter>
     </AuthProvider>
   </StrictMode>,
 )
+

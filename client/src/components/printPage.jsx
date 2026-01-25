@@ -1,315 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Mail, Phone, MapPin, Globe, Calendar, Briefcase, GraduationCap, Code, Folder, Download } from 'lucide-react';
-import { Document, Page, Text, View, StyleSheet, PDFDownloadLink, Font } from '@react-pdf/renderer';
+import { useParams } from 'react-router-dom';
 
-Font.register({
-  family: 'Roboto',
-  src: 'https://cdnjs.cloudflare.com/ajax/libs/ink/3.1.10/fonts/Roboto/roboto-light-webfont.ttf'
-});
-
-const pdfStyles = StyleSheet.create({
-  page: {
-    padding: 40,
-    fontSize: 11,
-    fontFamily: 'Helvetica',
-    lineHeight: 1.5,
-  },
-  header: {
-    marginBottom: 20,
-    borderBottom: '3pt solid black',
-    paddingBottom: 15,
-  },
-  name: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 8,
-    fontFamily: 'Helvetica-Bold',
-  },
-  contactInfo: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    fontSize: 9,
-    marginTop: 5,
-  },
-  contactItem: {
-    marginRight: 15,
-    marginBottom: 3,
-  },
-  languages: {
-    fontSize: 9,
-    marginTop: 5,
-  },
-  section: {
-    marginTop: 15,
-    marginBottom: 15,
-  },
-  sectionTitle: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    fontFamily: 'Helvetica-Bold',
-    textTransform: 'uppercase',
-    borderBottom: '1.5pt solid #666',
-    paddingBottom: 5,
-    marginBottom: 10,
-  },
-  experienceItem: {
-    marginBottom: 12,
-    marginLeft: 5,
-  },
-  jobTitle: {
-    fontSize: 11,
-    fontWeight: 'bold',
-    fontFamily: 'Helvetica-Bold',
-    marginBottom: 2,
-  },
-  employer: {
-    fontSize: 10,
-    fontWeight: 'bold',
-    fontFamily: 'Helvetica-Bold',
-    color: '#333',
-    marginBottom: 2,
-  },
-  dateLocation: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    fontSize: 9,
-    color: '#555',
-    marginBottom: 5,
-  },
-  location: {
-    fontSize: 9,
-    color: '#555',
-    marginBottom: 5,
-  },
-  description: {
-    fontSize: 9,
-    lineHeight: 1.4,
-    color: '#333',
-  },
-  educationItem: {
-    marginBottom: 10,
-    marginLeft: 5,
-  },
-  degree: {
-    fontSize: 11,
-    fontWeight: 'bold',
-    fontFamily: 'Helvetica-Bold',
-    marginBottom: 2,
-  },
-  institution: {
-    fontSize: 10,
-    fontWeight: 'bold',
-    fontFamily: 'Helvetica-Bold',
-    color: '#333',
-    marginBottom: 2,
-  },
-  eduDetails: {
-    flexDirection: 'row',
-    fontSize: 9,
-    color: '#555',
-    marginTop: 2,
-  },
-  projectItem: {
-    marginBottom: 12,
-    marginLeft: 5,
-  },
-  projectName: {
-    fontSize: 11,
-    fontWeight: 'bold',
-    fontFamily: 'Helvetica-Bold',
-    marginBottom: 3,
-  },
-  technologies: {
-    fontSize: 9,
-    marginBottom: 5,
-    color: '#333',
-  },
-  projectDescription: {
-    fontSize: 9,
-    lineHeight: 1.4,
-    color: '#333',
-  },
-  skills: {
-    fontSize: 9,
-    lineHeight: 1.6,
-    marginLeft: 5,
-  },
-  footer: {
-    position: 'absolute',
-    bottom: 30,
-    left: 40,
-    right: 40,
-    textAlign: 'center',
-    fontSize: 7,
-    color: '#999',
-    borderTop: '0.5pt solid #ccc',
-    paddingTop: 8,
-  },
-});
-
-// PDF Document Component
-const ResumePDF = ({ data }) => {
-  const formatDate = (dateString) => {
-    if (!dateString) return 'Present';
-    const date = new Date(dateString);
-    if (isNaN(date.getTime())) return dateString;
-    return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-  };
-
-  const calculateDuration = (startDate, endDate) => {
-    if (!startDate) return '';
-    const start = new Date(startDate);
-    const end = endDate ? new Date(endDate) : new Date();
-    if (isNaN(start.getTime()) || isNaN(end.getTime())) return '';
-    
-    const months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
-    const years = Math.floor(months / 12);
-    const remainingMonths = months % 12;
-    
-    if (years === 0 && remainingMonths === 0) return '(1 mo)';
-    if (years === 0) return `(${remainingMonths} mo)`;
-    if (remainingMonths === 0) return `(${years} yr)`;
-    return `(${years} yr ${remainingMonths} mo)`;
-  };
-
-  return (
-    <Document>
-      <Page size="A4" style={pdfStyles.page}>
-        {/* Header */}
-        <View style={pdfStyles.header}>
-          <Text style={pdfStyles.name}>
-            {data.firstName} {data.lastName}
-          </Text>
-          <View style={pdfStyles.contactInfo}>
-            {data.email && <Text style={pdfStyles.contactItem}>✉ {data.email}</Text>}
-            {data.phone && <Text style={pdfStyles.contactItem}>☎ {data.phone}</Text>}
-            {data.address && <Text style={pdfStyles.contactItem}>📍 {data.address}</Text>}
-          </View>
-          {data.languages && data.languages.length > 0 && (
-            <View style={pdfStyles.languages}>
-              <Text>
-                Languages: {Array.isArray(data.languages) ? data.languages.join(', ') : data.languages}
-              </Text>
-            </View>
-          )}
-        </View>
-
-        {/* Professional Experience */}
-        {data.experience && data.experience.length > 0 && (
-          <View style={pdfStyles.section}>
-            <Text style={pdfStyles.sectionTitle}>Professional Experience</Text>
-            {data.experience.map((exp, index) => (
-              <View key={index} style={pdfStyles.experienceItem}>
-                <Text style={pdfStyles.jobTitle}>{exp.jobTitle}</Text>
-                <Text style={pdfStyles.employer}>{exp.employer}</Text>
-                <View style={pdfStyles.dateLocation}>
-                  <Text>
-                    {formatDate(exp.jobStartDate)} - {exp.currentlyWorking ? 'Present' : formatDate(exp.jobEndDate)} {calculateDuration(exp.jobStartDate, exp.currentlyWorking ? null : exp.jobEndDate)}
-                  </Text>
-                </View>
-                {exp.jobLocation && (
-                  <Text style={pdfStyles.location}>📍 {exp.jobLocation}</Text>
-                )}
-                {exp.jobDescription && (
-                  <Text style={pdfStyles.description}>{exp.jobDescription}</Text>
-                )}
-              </View>
-            ))}
-          </View>
-        )}
-
-        {/* Education */}
-        {data.education && data.education.length > 0 && (
-          <View style={pdfStyles.section}>
-            <Text style={pdfStyles.sectionTitle}>Education</Text>
-            {data.education.map((edu, index) => (
-              <View key={index} style={pdfStyles.educationItem}>
-                <Text style={pdfStyles.degree}>
-                  {edu.degree}{edu.field && ` in ${edu.field}`}
-                </Text>
-                <Text style={pdfStyles.institution}>{edu.instituteName}</Text>
-                <View style={pdfStyles.eduDetails}>
-                  {edu.location && <Text style={{ marginRight: 15 }}>📍 {edu.location}</Text>}
-                  <Text>
-                    {formatDate(edu.startDate)} - {formatDate(edu.endDate)}
-                  </Text>
-                  {edu.score && edu.scoreType && (
-                    <Text style={{ marginLeft: 15 }}>
-                      {edu.scoreType}: {edu.score}
-                    </Text>
-                  )}
-                </View>
-              </View>
-            ))}
-          </View>
-        )}
-
-        {/* Projects */}
-        {data.projects && data.projects.length > 0 && (
-          <View style={pdfStyles.section}>
-            <Text style={pdfStyles.sectionTitle}>Projects</Text>
-            {data.projects.map((project, index) => (
-              <View key={index} style={pdfStyles.projectItem}>
-                <Text style={pdfStyles.projectName}>{project.projectName}</Text>
-                {project.technologies && project.technologies.length > 0 && (
-                  <Text style={pdfStyles.technologies}>
-                    Technologies: {project.technologies.join(' • ')}
-                  </Text>
-                )}
-                {project.link && (
-                  <Text style={{ fontSize: 8, color: '#0066cc', marginBottom: 3 }}>
-                    🔗 {project.link}
-                  </Text>
-                )}
-                {project.description && (
-                  <Text style={pdfStyles.projectDescription}>{project.description}</Text>
-                )}
-              </View>
-            ))}
-          </View>
-        )}
-
-        {/* Technical Skills */}
-        {data.skills && data.skills.length > 0 && (
-          <View style={pdfStyles.section}>
-            <Text style={pdfStyles.sectionTitle}>Technical Skills</Text>
-            <Text style={pdfStyles.skills}>
-              {data.skills.map(skill => {
-                if (typeof skill === 'string') return skill;
-                if (typeof skill === 'object' && skill.name) return skill.name;
-                return '';
-              }).filter(Boolean).join(' • ')}
-            </Text>
-          </View>
-        )}
-
-        {/* Footer */}
-        <View style={pdfStyles.footer} fixed>
-          <Text>ATS-Friendly Resume - Text-based PDF for optimal parsing</Text>
-        </View>
-      </Page>
-    </Document>
-  );
-};
-
-// Main Component
 const ATSResume = () => {
   const [resumeData, setResumeData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
-  const getResumeIdFromURL = () => {
-    const pathParts = window.location.pathname.split('/');
-    return pathParts[pathParts.length - 1];
-  };
+  const [downloadingPDF, setDownloadingPDF] = useState(false);
+  const {id}=useParams()
 
   useEffect(() => {
     const fetchResumeData = async () => {
       try {
         setLoading(true);
-        const resumeId = getResumeIdFromURL();
         
-        const response = await fetch(`http://localhost:3000/get/${resumeId}`, {
+        const response = await fetch(`http://localhost:3000/get/${id}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -339,6 +44,43 @@ const ATSResume = () => {
 
     fetchResumeData();
   }, []);
+
+  // Download PDF using Puppeteer backend
+  const downloadPDF = async () => {
+    try {
+      setDownloadingPDF(true);
+      
+      const response = await fetch(`http://localhost:3000/generate-pdf/${id}`, {
+        method: 'GET',
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate PDF');
+      }
+
+      // Get the PDF blob
+      const blob = await response.blob();
+      
+      // Create download link
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${resumeData.firstName}_${resumeData.lastName}_Resume.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      
+      // Cleanup
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+      
+    } catch (err) {
+      console.error('Error downloading PDF:', err);
+      alert('Failed to download PDF. Please try again.');
+    } finally {
+      setDownloadingPDF(false);
+    }
+  };
 
   const formatDate = (dateString) => {
     if (!dateString) return 'Present';
@@ -410,18 +152,14 @@ const ATSResume = () => {
     <>
       <div className="flex justify-end bg-gray-50 px-4">
         {resumeData && (
-          <PDFDownloadLink
-            document={<ResumePDF data={resumeData} />}
-            fileName={`${resumeData.firstName}_${resumeData.lastName}_Resume.pdf`}
-            className="bg-black text-white font-bold px-8 py-4 rounded-full my-3 hover:bg-white hover:text-black hover:border-2 hover:border-black transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl inline-flex items-center gap-2"
+          <button
+            onClick={downloadPDF}
+            disabled={downloadingPDF}
+            className="bg-black text-white font-bold px-8 py-4 rounded-full my-3 hover:bg-white hover:text-black hover:border-2 hover:border-black transition-all duration-300 cursor-pointer shadow-lg hover:shadow-xl inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {({ loading }) => (
-              <>
-                <Download size={20} />
-                {loading ? 'Preparing PDF...' : 'Download Resume'}
-              </>
-            )}
-          </PDFDownloadLink>
+            <Download size={20} />
+            {downloadingPDF ? 'Generating PDF...' : 'Download Resume'}
+          </button>
         )}
       </div>
 
@@ -619,5 +357,3 @@ const ATSResume = () => {
 };
 
 export default ATSResume;
-
-
