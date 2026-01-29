@@ -132,7 +132,6 @@ const Navbar = () => {
               </button>
             </div>
             
-            {/* Mobile Menu Content */}
             <div className="px-4 py-8 h-full flex flex-col">
               <div className="space-y-4 mb-8">
                 <a 
