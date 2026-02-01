@@ -301,7 +301,6 @@ function Faq() {
           )}
         </div>
 
-        {/* Additional Help Section */}
         {/* <div className="mt-8 sm:mt-12 bg-gradient-to-r from-gray-50 to-gray-100 
           rounded-xl p-6 sm:p-8 text-center border border-gray-200">
           <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-900 mb-3 sm:mb-4">
