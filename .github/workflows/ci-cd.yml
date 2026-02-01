@@ -33,30 +33,30 @@ jobs:
       - name: Build React app
         run: npm run build
 
-      - name: Upload client build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: client-build
-          path: client/dist
+      # - name: Upload client build artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: client-build
+      #     path: client/dist
 
-      - name: Copy repo to EC2
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: 13.203.155.6
-          username: ec2-user
-          key: ${{ secrets.EC2_SSH_KEY }}
-          source: "."
-          target: "/home/ec2-user/foster-client"
+      # - name: Copy repo to EC2
+      #   uses: appleboy/scp-action@v0.1.7
+      #   with:
+      #     host: 13.203.155.6
+      #     username: ec2-user
+      #     key: ${{ secrets.EC2_SSH_KEY }}
+      #     source: "."
+      #     target: "/home/ec2-user/foster-client"
 
-      - name: Execute deploy script
-        uses: appleboy/ssh-action@v0.1.7
-        with:
-          host: 13.203.155.6
-          username: ec2-user
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            cd ~
-            ./deploy.sh
+      # - name: Execute deploy script
+      #   uses: appleboy/ssh-action@v0.1.7
+      #   with:
+      #     host: 13.203.155.6
+      #     username: ec2-user
+      #     key: ${{ secrets.EC2_SSH_KEY }}
+      #     script: |
+      #       cd ~
+      #       ./deploy.sh
 
             
   build-backend:
